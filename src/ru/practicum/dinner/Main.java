@@ -1,5 +1,6 @@
 package ru.practicum.dinner;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -24,11 +25,15 @@ public class Main {
                     break;
                 case "3":
                     return;
+                default:
+                    System.out.println("Неверная команда. Введите 1, 2, 3.");
+                    break;
             }
         }
     }
 
     private static void printMenu() {
+        System.out.println("*".repeat(35));
         System.out.println("Выберите команду:");
         System.out.println("1 - Добавить новое блюдо");
         System.out.println("2 - Сгенерировать комбинации блюд");
@@ -38,13 +43,16 @@ public class Main {
     private static void addNewDish() {
         System.out.println("Введите тип блюда:");
         String dishType = scanner.nextLine();
+
         System.out.println("Введите название блюда:");
         String dishName = scanner.nextLine();
 
-        // добавьте новое блюдо
+        dc.addNewDish(dishType, dishName);
     }
 
     private static void generateDishCombo() {
+        ArrayList<String> types = new ArrayList<>();
+
         System.out.println("Начинаем конструировать обед...");
 
         System.out.println("Введите количество наборов, которые нужно сгенерировать:");
@@ -56,10 +64,18 @@ public class Main {
 
         //реализуйте ввод типов блюд
         while (!nextItem.isEmpty()) {
-
+            if (dc.checkType(nextItem)) {
+                types.add(nextItem);
+            } else {
+                System.out.println("Введеный тип блюд не существует.");
+            }
+            nextItem = scanner.nextLine();
         }
 
         // сгенерируйте комбинации блюд и выведите на экран
-
+        ArrayList<ArrayList<String>> combos = dc.generateCombos(numberOfCombos, types);
+        for (ArrayList<String> combo : combos) {
+            System.out.println("Комбо обед - " + combo);
+        }
     }
 }
