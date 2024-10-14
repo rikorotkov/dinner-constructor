@@ -13,11 +13,18 @@ public class DinnerConstructor {
         dishByType = new HashMap<>();
     }
 
-    void addNewDish(String type, String name) {
-        ArrayList<String> dishes = new ArrayList<>();
-        dishes.add(name);
-        dishByType.put(type, dishes);
-        System.out.println("Блюдо " + name + " добавлено в категорию " + type);
+    boolean addNewDish(String type, String name) {
+        ArrayList<String> dishes = dishByType.get(type);
+        if (dishes == null) {
+            dishes = new ArrayList<>();
+            dishByType.put(type, dishes);
+        }
+        if (dishes.contains(name)) {
+            return false;
+        } else {
+            dishes.add(name);
+            return true;
+        }
     }
 
     boolean checkType(String type) {
